@@ -17,7 +17,7 @@ const Navbar = () => {
           <span>60000000000 </span>
           <span className='mx-2' > Coin</span>
           <img className='h-[30px] w-[30px]' src={dollerImg} alt="" />
-        </div>d
+        </div>
       </div>
         </div>
     );

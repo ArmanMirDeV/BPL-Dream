@@ -17,6 +17,7 @@ function App() {
     <>
 
       <Navbar></Navbar>
+      
 
       <Suspense fallback={<span className="loading loading-dots loading-xl"></span> }>
         <AvailablePlayers playersPromise={playersPromise} ></AvailablePlayers>
