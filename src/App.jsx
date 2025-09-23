@@ -1,14 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Suspense, useState } from 'react'
+
 import './App.css'
+import AvailablePlayers from './components/AvailablePlayers/AvailablePlayers'
+import SelectedPlayers from './components/AvailablePlayers/SelectedPlayers/SelectedPlayers'
+import Navbar from './components/Navbar/Navbar'
+
+
+const fetchPlayers = async () => {
+  const res = await fetch('/players.json')
+  return res.json()
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const playersPromise = fetchPlayers();
   return (
     <>
-      i am here
+
+      <Navbar></Navbar>
+
+      <Suspense fallback={<span className="loading loading-dots loading-xl"></span> }>
+        <AvailablePlayers playersPromise={playersPromise} ></AvailablePlayers>
+      </Suspense>
+
+      <SelectedPlayers></SelectedPlayers>
+
+
+
     </>
   )
 }
