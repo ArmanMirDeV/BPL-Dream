@@ -12,10 +12,10 @@ const fetchPlayers = async () => {
 }
 
 
- const playersPromise = fetchPlayers();
+const playersPromise = fetchPlayers();
 
 function App() {
- 
+
 
   const [availableBalance, setAvailableBalance] = useState(919879);
 
@@ -24,32 +24,42 @@ function App() {
 
   const [toggle, setToggle] = useState(true)
 
+  const removePlayer = (p) =>{
+ 
+    const filteredData = purchasedPlayers.filter(ply=> ply.player_name!==p.player_name);
+    // console.log(filteredData)
+    setPurchasedPlayers(filteredData)
+    setAvailableBalance(availableBalance+parseInt(p.price.split("$").join("").split(",").join("")))
+  }
+
   return (
     <>
 
       <Navbar availableBalance={availableBalance} ></Navbar>
       <div className=' max-w-[1200px] mx-auto flex justify-between items-center ' >
-        <h1 className=' font-bold text-2xl ' >Available Players</h1>
+        <h1 className=' font-bold text-2xl ' >{
+          toggle === true ? "Available Players" : `Selected Players (${purchasedPlayers.length}/13) `
+        }</h1>
 
         <div className=' font-bold ' >
-          <button onClick={() => setToggle(true)} className={`' py-3 px-4 border-1 border-gray-400 rounded-l-2xl border-r-0 ${toggle===true?"bg-[#E7FE29] text-black":"" } `} >Available</button>
+          <button onClick={() => setToggle(true)} className={`' py-3 px-4 border-1 border-gray-400 rounded-l-2xl border-r-0 ${toggle === true ? "bg-[#E7FE29] text-black" : ""} `} >Available</button>
 
-          <button onClick={() => setToggle(false)} className={`py-3 px-4 border-1 border-gray-400 rounded-r-2xl border-l-0 ${toggle===false?"bg-[#E7FE29] text-black":""} `} >Selected <span>0</span> </button>
+          <button onClick={() => setToggle(false)} className={`py-3 px-4 border-1 border-gray-400 rounded-r-2xl border-l-0 ${toggle === false ? "bg-[#E7FE29] text-black" : ""} `} >Selected <span>({purchasedPlayers.length})</span> </button>
         </div>
 
       </div>
 
       {
-        toggle === true ? 
+        toggle === true ?
 
-        <Suspense fallback={<span className="loading loading-dots loading-xl ml-[50%] "></span>}>
-          <AvailablePlayers 
-          purchasedPlayers={purchasedPlayers}
-          setPurchasedPlayers={setPurchasedPlayers}
-          availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playersPromise={playersPromise} ></AvailablePlayers>
-        </Suspense> : 
-        
-        <SelectedPlayers purchasedPlayers={purchasedPlayers} ></SelectedPlayers>
+          <Suspense fallback={<span className="loading loading-dots loading-xl ml-[50%] "></span>}>
+            <AvailablePlayers
+              purchasedPlayers={purchasedPlayers}
+              setPurchasedPlayers={setPurchasedPlayers}
+              availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playersPromise={playersPromise} ></AvailablePlayers>
+          </Suspense> :
+
+          <SelectedPlayers removePlayer={removePlayer} purchasedPlayers={purchasedPlayers} ></SelectedPlayers>
       }
 
 
