@@ -1,4 +1,5 @@
 import { Suspense, useState } from 'react'
+  import { ToastContainer} from 'react-toastify';
 
 import './App.css'
 import AvailablePlayers from './components/AvailablePlayers/AvailablePlayers'
@@ -67,7 +68,7 @@ function App() {
 
 
 
-
+      <ToastContainer/>
     </>
   )
 }
